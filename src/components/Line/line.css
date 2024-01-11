@@ -1,14 +1,4 @@
-.line-container {
-    display: flex;
-    justify-content: center;
-}
-
 .line {
-    border-left: 6px solid green;
-    padding-left: 4px;
-}
-
-.activeLine {
-    border-left: 6px solid red;
-    padding-left: 4px;
+    width: 5px;
+    background-color: green;
 }
