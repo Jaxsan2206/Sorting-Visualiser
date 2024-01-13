@@ -7,7 +7,11 @@ export const sortedSlice = createSlice({
   },
   reducers: {
     sorted: (state, action) => {
-      state.value = state.value.concat(action.payload)
+      if (action.payload.length){
+        state.value = state.value.concat(action.payload);
+      } else {
+        state.value = [];
+      }
     },
   },
 });

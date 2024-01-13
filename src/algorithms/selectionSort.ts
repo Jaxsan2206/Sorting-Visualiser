@@ -1,4 +1,5 @@
 import { arrayUpdate } from "../reducers/array";
+import { runningUpdate } from "../reducers/running";
 import { selectionCompare } from "../reducers/selection";
 import { sorted } from "../reducers/sorted";
 import { swap } from "../reducers/swap";
@@ -6,6 +7,7 @@ import { swap } from "../reducers/swap";
 export const selectionSort =  (
     heights: number[],
     dispatch: () => void,
+    speed
   ): any => {
    const array = heights.slice(0);
    let currentIdx = 0; 
@@ -34,36 +36,32 @@ export const selectionSort =  (
     currentIdx++;
    }
 
-   handleDispatch(toDispatch, dispatch, array)
+   handleDispatch(toDispatch, dispatch, array, speed)
 };
 
-const handleDispatch = (toDispatch, dispatch, array) => {
+const handleDispatch = (toDispatch, dispatch, array, speed) => {
   for(let i=0; i < toDispatch.length; i++){
     if (toDispatch[i].length === 2 && typeof toDispatch[i][0] !== 'boolean'){
-      console.log('compare')
       setTimeout(() => {
         dispatch(selectionCompare(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } 
     else if (toDispatch[i].length > 3){
-      console.log('new array')
       setTimeout(() => {
         dispatch(arrayUpdate(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } 
     else if ((toDispatch[i].length === 3 && !hasDuplicates(toDispatch[i].slice(0)))){
-      console.log('swap')
       setTimeout(() => {
         dispatch(selectionCompare([]))
         dispatch(swap(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } else if (toDispatch[i][0] === true){
-      console.log('sorted')
       setTimeout(() => {
         dispatch(selectionCompare([]))
         dispatch(swap([]))
-        dispatch(sorted(toDispatch[i][1]))
-      }, i * 1000)
+        dispatch(sorted(toDispatch[i]))
+      }, i * speed)
     }
 
 
@@ -73,7 +71,8 @@ const handleDispatch = (toDispatch, dispatch, array) => {
     if (i === toDispatch.length - 1){
       setTimeout(() => {
         dispatch(sorted(array.map((el, idx) => idx)))
-      }, i * 1000)
+        dispatch(runningUpdate(false));
+      }, i * speed)
     }
   }
 }

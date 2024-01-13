@@ -1,13 +1,14 @@
 import { arrayUpdate } from "../reducers/array";
 import { quickSortCompare, updatePivot } from "../reducers/quickSort";
+import { runningUpdate } from "../reducers/running";
 import { sorted } from "../reducers/sorted";
 import { swap } from "../reducers/swap";
 
-export const quickSort = (heights, dispatch) => {
+export const quickSort = (heights, dispatch, speed) => {
   const array = heights.slice(0);
   const toDispatch = [];
   quickSortHelper(array, 0, array.length - 1, toDispatch);
-  handleDispatch(toDispatch, dispatch, array);
+  handleDispatch(toDispatch, dispatch, array, speed);
 };
 
 const quickSortHelper = (array, startIdx, endIdx, toDispatch) => {
@@ -76,7 +77,7 @@ const quickSortHelper = (array, startIdx, endIdx, toDispatch) => {
   }
 };
 
-const handleDispatch = (toDispatch, dispatch, array) => {
+const handleDispatch = (toDispatch, dispatch, array, speed) => {
     for (let i = 0; i < toDispatch.length; i++){
         let dispatchFunction = !(toDispatch[i] instanceof Array) ?
         updatePivot : toDispatch[i].length > 3 ?
@@ -85,13 +86,15 @@ const handleDispatch = (toDispatch, dispatch, array) => {
         sorted : quickSortCompare;
         setTimeout(() => {
             dispatch(dispatchFunction(toDispatch[i]));
-          }, i * 1000);
+          }, i * speed);
           if (dispatchFunction === updatePivot) dispatch(quickSortCompare(toDispatch[i + 1]));
           if (i === toDispatch.length - 1){
             setTimeout(() => {
+              dispatch(quickSortCompare([]))
               dispatch(updatePivot(null));
               dispatch(sorted(array.map((el, idx) => idx)))
-            }, i * 1000)
+              dispatch(runningUpdate(false));
+            }, i * speed)
           }
     }
     

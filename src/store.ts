@@ -7,6 +7,9 @@ import sortedReducer  from './reducers/sorted';
 import insertionReducer  from './reducers/insertion';
 import selectionReducer  from './reducers/selection';
 import quickSortReducer  from './reducers/quickSort';
+import mergeSortReducer  from './reducers/mergeSort';
+import heapSortReducer  from './reducers/heapSort';
+import runningReducer  from './reducers/running';
 
 export default configureStore({
   reducer: {
@@ -17,6 +20,9 @@ export default configureStore({
     sorted: sortedReducer,
     insertion: insertionReducer,
     selection: selectionReducer,
-    quickSort: quickSortReducer
+    quickSort: quickSortReducer,
+    mergeSort: mergeSortReducer,
+    heapSort: heapSortReducer,
+    running: runningReducer
   },
 })

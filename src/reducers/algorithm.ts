@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 export const algorithmSlice = createSlice({
   name: 'algorithm',
   initialState: {
-    value: 'bubble_sort',
+    value: '',
   },
   reducers: {
     algorithmUpdate: (state, action) => {

@@ -1,11 +1,13 @@
 import { arrayUpdate } from "../reducers/array";
 import { insertionCompare } from "../reducers/insertion";
+import { runningUpdate } from "../reducers/running";
 import { sorted } from "../reducers/sorted";
 import { swap } from "../reducers/swap";
 
 export const insertionSort =  (
     heights: number[],
     dispatch: () => void,
+    speed
   ) => {
     const array = heights.slice(0);
     const toDispatch = [];
@@ -27,30 +29,32 @@ export const insertionSort =  (
         j--; 
       }
     }
-    handleDispatch(toDispatch, dispatch, array)
+    handleDispatch(toDispatch, dispatch, array, speed)
 };
 
 
-const handleDispatch = (toDispatch, dispatch, array) => {
+const handleDispatch = (toDispatch, dispatch, array, speed) => {
   for(let i=0; i < toDispatch.length; i++){
     if (toDispatch[i].length === 2 && typeof toDispatch[i][0] !== 'boolean'){
       setTimeout(() => {
         dispatch(insertionCompare(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } else if (toDispatch[i].length > 3){
       setTimeout(() => {
         dispatch(arrayUpdate(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } else if (toDispatch[i].length === 3 || toDispatch[i].length === 0 ){
       setTimeout(() => {
         dispatch(swap(toDispatch[i]))
         // dispatch(insertionCompare([]))
-      }, i * 1000)
+      }, i * speed)
     } 
     if (i === toDispatch.length - 1){
       setTimeout(() => {
+        dispatch(insertionCompare([]))
         dispatch(sorted(array.map((el, idx) => idx)))
-      }, i * 1000)
+        dispatch(runningUpdate(false))
+      }, i * speed)
     }
   }
 }

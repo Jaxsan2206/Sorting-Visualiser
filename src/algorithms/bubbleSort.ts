@@ -1,11 +1,13 @@
 import { arrayUpdate } from "../reducers/array";
 import { bubbleSortCompare } from "../reducers/bubbleSort";
+import { runningUpdate } from "../reducers/running";
 import { sorted } from "../reducers/sorted";
 import { swap } from "../reducers/swap";
 
-export const getBubbleSortAnimations = (
+export const bubbleSort = (
     heights: number[],
-    dispatch: () => any
+    dispatch: () => any,
+    speed: number
   ): any => {
     //  need to recreate array to edit it, stateArray is read-only
     const array = heights.slice(0)
@@ -34,12 +36,13 @@ export const getBubbleSortAnimations = (
         }
       }
       counter++
+      //  Store
       toDispatch.push([true, array.length - counter])
     }
-    handleDispatch(toDispatch, dispatch, array)
+    handleDispatch(toDispatch, dispatch, array, speed)
 };
 
-const handleDispatch = (toDispatch, dispatch, array) => {
+const handleDispatch = (toDispatch, dispatch, array, speed) => {
 /* 
 Send a dispatch containing the 2 indexes we are comparing to reducer
 in the visualiser, when mapping heights, we check if the index matches the index in the bubbleSortCompare
@@ -49,26 +52,27 @@ otherwise we colour it green
     if (toDispatch[i].length === 2 && typeof toDispatch[i][0] !== 'boolean'){
       setTimeout(() => {
         dispatch(bubbleSortCompare(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } else if (toDispatch[i].length > 3){
       setTimeout(() => {
         // Changing the array forces a re-render
         dispatch(arrayUpdate(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } else if (toDispatch[i].length === 3 || toDispatch[i].length === 0 ){
       setTimeout(() => {
         dispatch(swap(toDispatch[i]))
-      }, i * 1000)
+      }, i * speed)
     } else if (toDispatch[i][0] === true){
       setTimeout(() => {
         dispatch(bubbleSortCompare([]))
-        dispatch(sorted(toDispatch[i][1]))
-      }, i * 1000)
+        dispatch(sorted(toDispatch[i]))
+      }, i * speed)
     }
     if (i === toDispatch.length - 1){
       setTimeout(() => {
         dispatch(sorted(array.map((el, idx) => idx)))
-      }, i * 1000)
+        dispatch(runningUpdate(false));
+      }, i * speed)
     }
   }
 }

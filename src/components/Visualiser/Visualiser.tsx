@@ -1,23 +1,22 @@
 import { connect } from "react-redux";
 import Line from "../Line/Line";
 
-const Visualiser = ({ array, bubbleSortCompare, swap, sorted, insertion, selection, quickSortCompare, qsPivotIdx }: any) => {
-  // console.log('sorted', sorted)
-  console.log('quickSortCompare', quickSortCompare)
+const Visualiser = ({ array, bubbleSortCompare, swap, sorted, insertion, selection, quickSortCompare, qsPivotIdx, mergeSortX, heapSort }: any) => {
   return (
     <div className="line-container">
       {array?.map((height, idx) => {
-        const color = sorted.includes(idx)
-          ? "purple"
-          : swap.includes(idx)
+        const color = swap.includes(idx)
           ? "red"
-          : qsPivotIdx === idx
-          ? "yellow"
           : bubbleSortCompare.includes(idx) ||
             insertion.includes(idx) ||
             selection.includes(idx) ||
-            quickSortCompare.includes(idx)
+            quickSortCompare.includes(idx) ||
+            mergeSortX.includes(idx) || heapSort.includes(idx)
           ? "blue"
+          : qsPivotIdx === idx
+          ? "yellow"
+          : sorted.includes(idx)
+          ? "purple"
           : "green";
         return <Line height={height} key={idx} color={color} />;
       })}
@@ -26,7 +25,6 @@ const Visualiser = ({ array, bubbleSortCompare, swap, sorted, insertion, selecti
 };
 
 const mapStateToProps = (state: any) => {
-  // console.log('state', state)
   return {
     array: state.array.value,
     bubbleSortCompare: state.bubbleSort.value,
@@ -36,6 +34,8 @@ const mapStateToProps = (state: any) => {
     selection: state.selection.value,
     quickSortCompare: state.quickSort.value,
     qsPivotIdx: state.quickSort.pivot,
+    mergeSortX: state.mergeSort.value,
+    heapSort: state.heapSort.value
   };
 };
 
