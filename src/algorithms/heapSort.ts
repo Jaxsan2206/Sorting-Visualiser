@@ -63,7 +63,7 @@ function siftDown(array, start, end, toDispatch) {
 function handleDispatch(toDispatch, dispatch, array, speed) {
     for (let i = 0; i < toDispatch.length; i++){
         let dispatchFunction = toDispatch[i].length > 3 ?
-            arrayUpdate : toDispatch[i].length === 3 && typeof toDispatch[i][2] === "boolean" || !toDispatch[i].length ?
+            arrayUpdate : (toDispatch[i].length === 3 && typeof toDispatch[i][2] === "boolean") || !toDispatch[i].length ?
               swap : toDispatch[i].length === 2 && typeof toDispatch[i][0] === "boolean" ?
                 sorted : heapSortCompare;
         setTimeout(() => {

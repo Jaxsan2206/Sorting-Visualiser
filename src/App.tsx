@@ -39,7 +39,7 @@ function App({ array, algorithm, createArray, updateAlgorithm, sort, isRunning }
 
   useEffect(() => {
     createArray(arrayLength);
-  }, [arrayLength]);
+  }, [arrayLength, createArray]);
 
   const isSortButtonDisabled = !algorithm || isRunning;
   const isResetButtonDisabled = isRunning;

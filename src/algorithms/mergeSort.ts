@@ -55,8 +55,8 @@ function actualSort(first, second, toDispatch, obj, start, end, isFinalMerge) {
 function handleDispatch(toDispatch, dispatch, array, speed) {
   for (let i = 0; i < toDispatch.length; i++){
     let dispatchFunction = toDispatch[i].length > 3 ?
-    arrayUpdate : toDispatch[i].length === 3 && typeof toDispatch[i][2] === "boolean" || toDispatch[i].length === 0 ?
-      swap : toDispatch[i].length === 2 && typeof toDispatch[i][0] === "boolean" ?
+    arrayUpdate : (toDispatch[i].length === 3 && typeof toDispatch[i][2] === "boolean") || toDispatch[i].length === 0 ?
+      swap : (toDispatch[i].length === 2 && typeof toDispatch[i][0] === "boolean") ?
         sorted : mergeSortX;
         if (dispatchFunction === arrayUpdate) {
           setTimeout(()=> {
